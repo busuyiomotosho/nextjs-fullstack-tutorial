@@ -1,3 +1,15 @@
-.container {
-  background-color: #3e67e2;
+/* .container {
+} */
+.mainTitle {
+  font-size: 5rem;
+}
+
+.selectTitle {
+  font-size: 2rem;
+  margin: 20px 0;
+}
+
+.works {
+  display: flex;
+  gap: 50px;
 }

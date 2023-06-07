@@ -1,3 +1,7 @@
-.container {
-  background-color: #3e67e2;
+/* .container {
+} */
+.title {
+  font-size: 4rem;
+  font-weight: 600;
+  margin-bottom: 20px;
 }
