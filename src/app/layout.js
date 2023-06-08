@@ -12,7 +12,7 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: "Next Tutorial",
+  title: "Fit Designs Next Website",
   description: "Learning to work with NextJS",
 };
 

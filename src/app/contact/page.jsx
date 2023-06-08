@@ -4,6 +4,11 @@ import Hero from "public/contact_us.svg";
 import Image from "next/image";
 import Button from "@/components/Button/Button";
 
+export const metadata = {
+  title: "Contact Us - Fit Designs Next Website",
+  description: "Learning to work with NextJS",
+};
+
 function Contact() {
   return (
     <div className={styles.container}>

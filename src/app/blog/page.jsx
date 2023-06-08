@@ -2,30 +2,38 @@ import React from "react";
 import styles from "./page.module.css";
 import PostThumbnail from "@/components/PostThumbnail/PostThumbnail";
 
-function Blog() {
+async function getData() {
+  const res = await fetch("http://localhost:3000/api/posts", {
+    next: { revalidate: 10 },
+  });
+  // The return value is *not* serialized
+  // You can return Date, Map, Set, etc.
+
+  // Recommendation: handle errors
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json();
+}
+
+const Blog = async () => {
+  const data = await getData();
   return (
     <div className={styles.container}>
       <div className={styles.title}>Our Blog</div>
-      <PostThumbnail
-        blogURL="/blog/testId"
-        image="https://images.pexels.com/photos/17123466/pexels-photo-17123466/free-photo-of-city-traffic-fashion-people.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load"
-        title="Test Title"
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nisl turpis, dignissim tempus ligula vel, rutrum laoreet erat. Nunc eu nulla quis risus imperdiet dictum id nec metus. Fusce turpis quam, scelerisque in elit ac, pellentesque elementum eros. Nullam vitae nunc sollicitudin, ultricies ligula non, dictum tortor. Cras ac consectetur purus. Aenean aliquam nisi risus, et fermentum ligula suscipit quis."
-      />
-      <PostThumbnail
-        blogURL="/blog/testId"
-        image="https://images.pexels.com/photos/17126466/pexels-photo-17126466/free-photo-of-snorkeling-in-egypt-dive-into-the-wonders-of-the-red-sea.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load"
-        title="Test Title"
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nisl turpis, dignissim tempus ligula vel, rutrum laoreet erat. Nunc eu nulla quis risus imperdiet dictum id nec metus. Fusce turpis quam, scelerisque in elit ac, pellentesque elementum eros. Nullam vitae nunc sollicitudin, ultricies ligula non, dictum tortor. Cras ac consectetur purus. Aenean aliquam nisi risus, et fermentum ligula suscipit quis."
-      />
-      <PostThumbnail
-        blogURL="/blog/testId"
-        image="https://images.pexels.com/photos/16846950/pexels-photo-16846950/free-photo-of-sea-beach-water-ocean.png?auto=compress&cs=tinysrgb&w=1600&lazy=load"
-        title="Test Title"
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nisl turpis, dignissim tempus ligula vel, rutrum laoreet erat. Nunc eu nulla quis risus imperdiet dictum id nec metus. Fusce turpis quam, scelerisque in elit ac, pellentesque elementum eros. Nullam vitae nunc sollicitudin, ultricies ligula non, dictum tortor. Cras ac consectetur purus. Aenean aliquam nisi risus, et fermentum ligula suscipit quis."
-      />
+      {data.map((item) => (
+        <PostThumbnail
+          key={item._id}
+          blogURL={`/blog/${item._id}`}
+          image={item.image}
+          title={item.title}
+          description={item.desc}
+        />
+      ))}
     </div>
   );
-}
+};
 
 export default Blog;
