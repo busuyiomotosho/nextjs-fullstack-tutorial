@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.input {
+  padding: 20px;
+  background-color: transparent;
+  width: 300px;
+  outline: none;
+  color: #bbb;
+  border: 3px solid #bbb;
+  font-size: 1.2rem;
+}
+
+.button {
+  padding: 20px;
+  cursor: pointer;
+  background-color: #3e67e2;
+  border: none;
+  border-radius: 5px;
+  width: 300px;
+  color: #fff;
+}
+
+.button:hover {
+  background-color: #5478e3;
+}
