@@ -1,3 +1,36 @@
 .container {
-  background-color: #3e67e2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+}
+
+.posts {
+  flex: 1;
+}
+
+.post {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 50px 0;
+}
+
+.imgContainer {
+  width: 200px;
+  height: 100px;
+  position: 0;
+}
+
+.img {
+  object-fit: cover;
+}
+
+.delete {
+  cursor: pointer;
+  color: red;
+}
+
+.new {
+  flex: 1;
 }
