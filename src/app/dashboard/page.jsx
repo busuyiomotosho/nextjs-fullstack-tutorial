@@ -1,21 +1,21 @@
 "use client";
-
-import React from "react";
+import React, { useState } from "react";
 import styles from "./page.module.css";
 import useSWR from "swr";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-function Dashboard() {
+const Dashboard = () => {
   const session = useSession();
   const router = useRouter();
+  // const [err, setErr] = useState(null);
 
   // console.log(session);
 
-  const fetcher = (...args) => fetch(...args).then((res) => res, json());
+  const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
-  const { data, error, isLoading } = useSWR(
+  const { data, mutate, error, isLoading } = useSWR(
     `/api/posts?username=${session?.data?.user.name}`,
     fetcher
   );
@@ -37,17 +37,37 @@ function Dashboard() {
     const content = e.target[3].value;
 
     try {
-      await fetch("/api/posts", {
+      const res = await fetch("/api/posts", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          username: session.data.user.name,
           title,
           desc,
           img,
           content,
+          username: session.data.user.name,
         }),
       });
+
+      mutate();
+      e.target.reset();
+
+      if (res.ok) {
+        console.log("Posted Successfully"); // Post created successfully
+      } else {
+        // Handle other response statuses (if needed)
+        throw new Error("Failed to create post");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await fetch(`/api/posts/${id}`, {
+        method: "DELETE",
+      });
+      mutate();
     } catch (err) {
       console.log(err);
     }
@@ -58,18 +78,23 @@ function Dashboard() {
       <div className={styles.container}>
         <div className={styles.posts}>
           {isLoading
-            ? "Loading..."
-            : data?.map((posts) => (
+            ? "loading"
+            : data?.map((post) => (
                 <div className={styles.post} key={post._id}>
                   <div className={styles.imgContainer}>
                     <Image src={post.img} alt="" width="200" height="100" />
                   </div>
                   <h2 className={styles.postTitle}>{post.title}</h2>
-                  <span className={styles.delete}>X</span>
+                  <span
+                    className={styles.delete}
+                    onClick={() => handleDelete(post._id)}
+                  >
+                    X
+                  </span>
                 </div>
               ))}
         </div>
-        <form className={styles.new} onClick={handleSubmit}>
+        <form className={styles.new} onSubmit={handleSubmit}>
           <h2>Add New Post</h2>
           <input
             type="text"
@@ -88,7 +113,7 @@ function Dashboard() {
           />
           <textarea
             placeholder="New Post Content..."
-            className={styles.textarea}
+            className={styles.textArea}
             cols="30"
             rows="10"
           ></textarea>
@@ -97,6 +122,6 @@ function Dashboard() {
       </div>
     );
   }
-}
+};
 
 export default Dashboard;

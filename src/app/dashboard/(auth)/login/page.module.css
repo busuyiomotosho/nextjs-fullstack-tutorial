@@ -33,6 +33,15 @@
   width: 300px;
   color: #fff;
 }
+.googleLogin {
+  padding: 20px;
+  cursor: pointer;
+  background-color: #e23e3e;
+  border: none;
+  border-radius: 5px;
+  width: 300px;
+  color: #fff;
+}
 
 .button:hover {
   background-color: #5478e3;
