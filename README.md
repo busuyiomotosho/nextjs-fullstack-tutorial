@@ -1,4 +1,4 @@
-This is a simple personal blog built with [Next.js](https://nextjs.org/). It includes an admin dashboard where the user can easily upload blog content in the blog section on the website.
+This is a simple personal blog built with [Next.js](https://nextjs.org/). It includes an admin dashboard where the user can easily upload blog content in the blog section on the website, which are store in a mongodb database via mongodb atlas. It also features local authentication and OAuth authentication with google.
 
 ## Getting Started
 
